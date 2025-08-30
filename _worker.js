@@ -190,6 +190,7 @@ const htmlContent = `<!DOCTYPE html>
                 <div class="form-group">
                     <label for="port">Port:</label>
                     <input type="number" id="port" value="80" required>
+                    <input type="number" id="port" value="443" required>
                 </div>
                 
                 <div class="form-group">
@@ -224,16 +225,16 @@ const htmlContent = `<!DOCTYPE html>
             
             <div class="form-group">
                 <label for="host">Host:</label>
-                <input type="text" id="host" value="worker.my.id" required>
+                <input type="text" id="host" value="Isi Dengan Domain" required>
             </div>
             
             <div class="form-group">
                 <label for="path">Path:</label>
-                <input type="text" id="path" value="/free/95.181.151.2:2096" required>
+                <input type="text" id="path" value="/Isi Proxy Anda" required>
             </div>
             
             <div class="form-group">
-                <label for="remark">Remark/Nama Koneksi:</label>
+                <label for="remark">Remark/NAMA ANDA:</label>
                 <input type="text" id="remark" value="nuxt.cloud hosting provider" required>
             </div>
             
