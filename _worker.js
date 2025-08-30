@@ -234,8 +234,8 @@ const htmlContent = `<!DOCTYPE html>
             </div>
             
             <div class="form-group">
-                <label for="remark">Remark/NAMA ANDA:</label>
-                <input type="text" id="remark" value="nuxt.cloud hosting provider" required>
+                <label for="remark">Remark/Nama Anda:</label>
+                <input type="text" id="remark" value="Isi Sesuai Nama Anda" required>
             </div>
             
             <button type="button" id="generateBtn">Buat Konfigurasi</button>
@@ -248,7 +248,7 @@ const htmlContent = `<!DOCTYPE html>
         </div>
         
         <div class="example">
-            <strong>Contoh:</strong> vless://2bcfbfba-b446-4ad5-93ad-72af9e008f61@Quiz.vidio.com:80/?security=none&encryption=none&type=ws&host=worker.my.id&path=/free/95.181.151.2:2096#%F0%9F%87%A9%F0%9F%87%AA%20nuxt.cloud%20hosting%20provider
+            <strong>SRIPT BY GENDARXML
         </div>
     </div>
     
