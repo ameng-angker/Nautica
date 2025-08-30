@@ -1,21 +1,10 @@
-<!DOCTYPE html>
+const htmlContent = `<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Worker VLESS Account Creator</title>
+    <title>Pembuat Akun VLESS NTLS</title>
     <style>
-        :root {
-            --primary: #4a90e2;
-            --primary-dark: #3a70b2;
-            --secondary: #f7b731;
-            --dark: #2d3748;
-            --light: #f8f9fa;
-            --success: #48bb78;
-            --danger: #e53e3e;
-            --gray: #a0aec0;
-        }
-        
         * {
             box-sizing: border-box;
             margin: 0;
@@ -25,55 +14,39 @@
         
         body {
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
             min-height: 100vh;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-top: 20px;
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
-            color: white;
-            width: 100%;
-            max-width: 800px;
         }
         
-        header h1 {
-            font-size: 2.5rem;
+        h1 {
+            color: #2c3e50;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.2rem;
         }
         
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 100%;
-            max-width: 1000px;
-            justify-content: center;
-        }
-        
-        .form-container, .result-container {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            width: 100%;
-            max-width: 480px;
-        }
-        
-        h2 {
-            color: var(--dark);
+        .description {
+            color: #7f8c8d;
+            font-size: 1.1rem;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
         }
         
         .form-group {
@@ -84,401 +57,252 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dark);
+            color: #34495e;
         }
         
         input, select {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--gray);
-            border-radius: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s;
         }
         
         input:focus, select:focus {
-            border-color: var(--primary);
+            border-color: #3498db;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
         }
         
         button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            background: #3498db;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            transition: background 0.3s;
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            background: #2980b9;
         }
         
-        button:active {
-            transform: translateY(0);
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
         }
         
-        .result {
-            display: none;
-            margin-top: 25px;
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
         }
         
-        .config-output {
-            background-color: var(--dark);
-            color: var(--light);
+        #configResult {
+            background: #2c3e50;
+            color: #ecf0f1;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: monospace;
             white-space: pre-wrap;
             word-break: break-all;
-            overflow-x: auto;
             margin-top: 10px;
-            line-height: 1.5;
+            overflow-x: auto;
         }
         
         .copy-btn {
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: var(--secondary);
-            color: var(--dark);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.2s;
+            background: #27ae60;
+            margin-top: 10px;
+            padding: 10px;
         }
         
         .copy-btn:hover {
-            background-color: #e6a520;
+            background: #219653;
         }
         
-        .instructions {
-            margin-top: 30px;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-            width: 100%;
-            max-width: 1000px;
-        }
-        
-        .instructions h3 {
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .instructions ol {
-            margin-left: 20px;
-            line-height: 1.6;
-        }
-        
-        .instructions li {
-            margin-bottom: 10px;
-        }
-        
-        .instructions code {
-            background-color: rgba(0, 0, 0, 0.2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-        
-        .alert {
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        
-        .alert-success {
-            background-color: #c6f6d5;
-            color: #2d7048;
-            border-left: 4px solid var(--success);
-        }
-        
-        .alert-error {
-            background-color: #fed7d7;
-            color: #c53030;
-            border-left: 4px solid var(--danger);
-        }
-        
-        .worker-code {
-            margin-top: 20px;
-            background-color: #2d3748;
-            color: #e2e8f0;
+        .example {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
             padding: 15px;
-            border-radius: 5px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            display: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
         }
         
-        .toggle-code {
-            margin-top: 15px;
-            background: none;
-            border: none;
-            color: var(--primary);
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 14px;
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #ecf0f1;
+            font-size: 0.9rem;
         }
         
-        @media (max-width: 768px) {
-            .container {
+        @media (max-width: 600px) {
+            .form-row {
                 flex-direction: column;
-                align-items: center;
+                gap: 0;
             }
             
-            .form-container, .result-container {
-                width: 100%;
+            h1 {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Worker VLESS Account Creator</h1>
-        <p>Buat konfigurasi VLESS secara instan dengan Cloudflare Worker</p>
-    </header>
-    
     <div class="container">
-        <div class="form-container">
-            <h2>Buat Konfigurasi VLESS</h2>
-            <div id="alertBox" class="alert"></div>
-            <form id="vlessForm">
+        <header>
+            <h1>Pembuat Konfigurasi VLESS NTLS</h1>
+            <p class="description">Buat konfigurasi VLESS NTLS untuk penggunaan pribadi Anda</p>
+        </header>
+        
+        <form id="vlessForm">
+            <div class="form-row">
                 <div class="form-group">
-                    <label for="bug">Bug:</label>
-                    <input type="text" id="bug" name="bug" placeholder="Masukkan bug" required>
+                    <label for="uuid">UUID:</label>
+                    <input type="text" id="uuid" value="2bcfbfba-b446-4ad5-93ad-72af9e008f61" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="domain">Domain Worker:</label>
-                    <input type="text" id="domain" name="domain" placeholder="contoh: namaworker.namauser.workers.dev" required>
+                    <label for="address">Address/Server:</label>
+                    <input type="text" id="address" value="Quiz.vidio.com" required>
                 </div>
-                
-                <div class="form-group">
-                    <label for="proxyPath">Proxy Path:</label>
-                    <input type="text" id="proxyPath" name="proxyPath" placeholder="Masukkan path proxy" required value="/vless">
-                </div>
-                
-                <div class="form-group">
-                    <label for="uuid">UUID (opsional):</label>
-                    <input type="text" id="uuid" name="uuid" placeholder="Kosongkan untuk generate otomatis">
-                </div>
-                
-                <button type="submit">Buat Konfigurasi</button>
-            </form>
-            
-            <button class="toggle-code" id="toggleCode">Lihat Kode Worker</button>
-            
-            <div class="worker-code" id="workerCode">
-// Cloudflare Worker untuk membuat akun VLESS
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
-
-async function handleRequest(request) {
-  // Generate UUID secara acak jika tidak disediakan
-  function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0
-      const v = c == 'x' ? r : (r & 0x3 | 0x8)
-      return v.toString(16)
-    })
-  }
-
-  const url = new URL(request.url)
-  const path = url.pathname
-  
-  // Jika path adalah /create, buat konfigurasi VLESS
-  if (path === '/create') {
-    const { searchParams } = url
-    
-    const bug = searchParams.get('bug') || 'default-bug'
-    const userDomain = searchParams.get('domain') || 'example.com'
-    const proxyPath = searchParams.get('path') || '/vless'
-    let uuid = searchParams.get('uuid')
-    
-    if (!uuid) {
-      uuid = generateUUID()
-    }
-    
-    // Buat konfigurasi VLESS
-    const vlessConfig = `vless://${uuid}@${userDomain}:443?encryption=none&security=tls&type=ws&host=${userDomain}&path=${encodeURIComponent(proxyPath)}#${encodeURIComponent(bug)}`
-    
-    // Kembalikan sebagai JSON
-    const response = {
-      status: 'success',
-      data: {
-        config: vlessConfig,
-        bug: bug,
-        domain: userDomain,
-        path: proxyPath,
-        uuid: uuid
-      }
-    }
-    
-    return new Response(JSON.stringify(response, null, 2), {
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }
-  
-  // Untuk permintaan lainnya, kembalikan petunjuk penggunaan
-  const html = `
-    &lt;h1&gt;VLESS Worker Creator&lt;/h1&gt;
-    &lt;p&gt;Gunakan endpoint /create dengan parameter berikut:&lt;/p&gt;
-    &lt;ul&gt;
-      &lt;li&gt;bug - Nama bug (required)&lt;/li&gt;
-      &lt;li&gt;domain - Domain worker (required)&lt;/li&gt;
-      &lt;li&gt;path - Path proxy (default: /vless)&lt;/li&gt;
-      &lt;li&gt;uuid - UUID (opsional, akan digenerate otomatis)&lt;/li&gt;
-    &ul&gt;
-    &lt;p&gt;Contoh: &lt;code&gt;/create?bug=mybug&domain=myworker.myuser.workers.dev&path=/vless&uuid=12345678-1234-1234-1234-123456789012&lt;/code&gt;&lt;/p&gt;
-  `
-  
-  return new Response(html, {
-    headers: { 'Content-Type': 'text/html' },
-  })
-}
             </div>
-        </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="port">Port:</label>
+                    <input type="number" id="port" value="80" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="security">Security:</label>
+                    <select id="security">
+                        <option value="none" selected>none</option>
+                        <option value="tls">tls</option>
+                        <option value="xtls">xtls</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="encryption">Encryption:</label>
+                    <select id="encryption">
+                        <option value="none" selected>none</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select id="type">
+                        <option value="ws" selected>ws (WebSocket)</option>
+                        <option value="tcp">tcp</option>
+                        <option value="kcp">kcp</option>
+                        <option value="h2">h2</option>
+                        <option value="quic">quic</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="host">Host:</label>
+                <input type="text" id="host" value="worker.my.id" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="path">Path:</label>
+                <input type="text" id="path" value="/free/95.181.151.2:2096" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="remark">Remark/Nama Koneksi:</label>
+                <input type="text" id="remark" value="nuxt.cloud hosting provider" required>
+            </div>
+            
+            <button type="button" id="generateBtn">Buat Konfigurasi</button>
+        </form>
         
         <div class="result-container">
-            <h2>Hasil Konfigurasi</h2>
-            <div class="result" id="resultContainer">
-                <p>Konfigurasi VLESS Anda:</p>
-                <div class="config-output" id="configOutput"></div>
-                <button class="copy-btn" id="copyBtn">Salin ke Clipboard</button>
-                
-                <div style="margin-top: 20px;">
-                    <p>Detail Konfigurasi:</p>
-                    <div class="config-output" id="detailsOutput"></div>
-                </div>
-            </div>
-            
-            <div id="placeholderResult">
-                <p>Isi formulir di sebelah kiri dan klik "Buat Konfigurasi" untuk menghasilkan konfigurasi VLESS.</p>
-                <p>Konfigurasi akan ditampilkan di sini setelah berhasil dibuat.</p>
-            </div>
+            <div class="result-title">Hasil Konfigurasi VLESS:</div>
+            <div id="configResult">Konfigurasi akan muncul di sini setelah Anda mengisi formulir dan mengeklik "Buat Konfigurasi".</div>
+            <button type="button" id="copyBtn" class="copy-btn">Salin ke Clipboard</button>
+        </div>
+        
+        <div class="example">
+            <strong>Contoh:</strong> vless://2bcfbfba-b446-4ad5-93ad-72af9e008f61@Quiz.vidio.com:80/?security=none&encryption=none&type=ws&host=worker.my.id&path=/free/95.181.151.2:2096#%F0%9F%87%A9%F0%9F%87%AA%20nuxt.cloud%20hosting%20provider
         </div>
     </div>
     
-    <div class="instructions">
-        <h3>Cara Menggunakan:</h3>
-        <ol>
-            <li>Isi formulir dengan detail yang diperlukan</li>
-            <li>Klik "Buat Konfigurasi" untuk menghasilkan link VLESS</li>
-            <li>Salin konfigurasi dan gunakan di client VPN Anda</li>
-            <li>Untuk deploy worker sendiri, salin kode worker dan deploy di Cloudflare Workers</li>
-        </ol>
-    </div>
+    <footer>
+        <p>© 2023 Pembuat Konfigurasi VLESS NTLS | Untuk keperluan edukasi</p>
+    </footer>
 
     <script>
-        document.getElementById('vlessForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
+        document.getElementById('generateBtn').addEventListener('click', function() {
             // Ambil nilai dari form
-            const bug = document.getElementById('bug').value;
-            const domain = document.getElementById('domain').value;
-            const proxyPath = document.getElementById('proxyPath').value;
-            let uuid = document.getElementById('uuid').value;
+            const uuid = document.getElementById('uuid').value;
+            const address = document.getElementById('address').value;
+            const port = document.getElementById('port').value;
+            const security = document.getElementById('security').value;
+            const encryption = document.getElementById('encryption').value;
+            const type = document.getElementById('type').value;
+            const host = document.getElementById('host').value;
+            const path = document.getElementById('path').value;
+            const remark = document.getElementById('remark').value;
             
-            // Sembunyikan alert
-            const alertBox = document.getElementById('alertBox');
-            alertBox.style.display = 'none';
+            // Encode remark untuk URL
+            const encodedRemark = encodeURIComponent(remark);
             
-            try {
-                // Buat URL parameter
-                const params = new URLSearchParams();
-                params.append('bug', bug);
-                params.append('domain', domain);
-                params.append('path', proxyPath);
-                if (uuid) params.append('uuid', uuid);
-                
-                // Kirim request ke worker (menggunakan worker dummy untuk demo)
-                // Dalam implementasi nyata, ganti URL dengan worker Anda
-                const response = await fetch(`https://vless-worker-demo.radenpioneer.workers.dev/create?${params}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    // Tampilkan hasil
-                    document.getElementById('configOutput').textContent = data.data.config;
-                    document.getElementById('detailsOutput').textContent = `Bug: ${data.data.bug}\nDomain: ${data.data.domain}\nPath: ${data.data.path}\nUUID: ${data.data.uuid}`;
-                    document.getElementById('resultContainer').style.display = 'block';
-                    document.getElementById('placeholderResult').style.display = 'none';
-                    
-                    // Tampilkan alert sukses
-                    alertBox.textContent = 'Konfigurasi berhasil dibuat!';
-                    alertBox.className = 'alert alert-success';
-                    alertBox.style.display = 'block';
-                } else {
-                    throw new Error(data.message || 'Terjadi kesalahan');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                
-                // Untuk demo, buat konfigurasi lokal jika worker tidak tersedia
-                if (!uuid) {
-                    uuid = generateUUID();
-                }
-                
-                const config = `vless://${uuid}@${domain}:443?encryption=none&security=tls&type=ws&host=${domain}&path=${encodeURIComponent(proxyPath)}#${encodeURIComponent(bug)}`;
-                
-                document.getElementById('configOutput').textContent = config;
-                document.getElementById('detailsOutput').textContent = `Bug: ${bug}\nDomain: ${domain}\nPath: ${proxyPath}\nUUID: ${uuid}`;
-                document.getElementById('resultContainer').style.display = 'block';
-                document.getElementById('placeholderResult').style.display = 'none';
-                
-                // Tampilkan alert info (karena menggunakan fallback)
-                alertBox.textContent = 'Worker tidak tersedia, menggunakan generator lokal. Untuk pengalaman terbaik, deploy worker terlebih dahulu.';
-                alertBox.className = 'alert alert-success';
-                alertBox.style.display = 'block';
-            }
+            // Buat string konfigurasi
+            const config = \`vless://\${uuid}@\${address}:\${port}/?security=\${security}&encryption=\${encryption}&type=\${type}&host=\${host}&path=\${path}#\${encodedRemark}\`;
+            
+            // Tampilkan hasil
+            document.getElementById('configResult').textContent = config;
         });
         
         document.getElementById('copyBtn').addEventListener('click', function() {
-            const configText = document.getElementById('configOutput').textContent;
-            navigator.clipboard.writeText(configText).then(() => {
+            const configText = document.getElementById('configResult').textContent;
+            
+            // Salin teks ke clipboard
+            navigator.clipboard.writeText(configText).then(function() {
+                // Ubah teks tombol sementara
                 const originalText = this.textContent;
                 this.textContent = 'Tersalin!';
+                
+                // Kembalikan teks asli setelah 2 detik
                 setTimeout(() => {
                     this.textContent = originalText;
                 }, 2000);
-            });
+            }.bind(this));
         });
-        
-        document.getElementById('toggleCode').addEventListener('click', function() {
-            const codeElement = document.getElementById('workerCode');
-            if (codeElement.style.display === 'block') {
-                codeElement.style.display = 'none';
-                this.textContent = 'Lihat Kode Worker';
-            } else {
-                codeElement.style.display = 'block';
-                this.textContent = 'Sembunyikan Kode Worker';
-            }
-        });
-        
-        // Fungsi untuk generate UUID
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
     </script>
 </body>
-</html>
+</html>`;
+
+export default {
+  async fetch(request, env, ctx) {
+    return new Response(htmlContent, {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    });
+  },
+};
