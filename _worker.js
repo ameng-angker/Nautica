@@ -1,4 +1,4 @@
-const HTML_CONTENT = `<!DOCTYPE html>
+const htmlContent = `<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -138,6 +138,15 @@ const HTML_CONTENT = `<!DOCTYPE html>
             background: #219653;
         }
         
+        .example {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
         footer {
             text-align: center;
             margin-top: 30px;
@@ -155,33 +164,6 @@ const HTML_CONTENT = `<!DOCTYPE html>
                 font-size: 1.8rem;
             }
         }
-        
-        .auto-fill {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .auto-fill-btn {
-            background: #9b59b6;
-            padding: 8px 15px;
-            font-size: 14px;
-            width: auto;
-        }
-        
-        .auto-fill-btn:hover {
-            background: #8e44ad;
-        }
-        
-        .info-text {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
     </style>
 </head>
 <body>
@@ -190,11 +172,6 @@ const HTML_CONTENT = `<!DOCTYPE html>
             <h1>Pembuat Konfigurasi VLESS NTLS</h1>
             <p class="description">Buat konfigurasi VLESS NTLS untuk penggunaan pribadi Anda</p>
         </header>
-        
-        <div class="auto-fill">
-            <span>Isi otomatis dengan detail halaman ini</span>
-            <button type="button" id="autoFillBtn" class="auto-fill-btn">Isi Otomatis</button>
-        </div>
         
         <form id="vlessForm">
             <div class="form-row">
@@ -205,21 +182,21 @@ const HTML_CONTENT = `<!DOCTYPE html>
                 
                 <div class="form-group">
                     <label for="address">Address/Server:</label>
-                    <input type="text" id="address" value="" placeholder="domain-anda.com" required>
+                    <input type="text" id="address" value="Quiz.vidio.com" required>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="port">Port:</label>
-                    <input type="number" id="port" value="443" required>
+                    <input type="number" id="port" value="80" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="security">Security:</label>
                     <select id="security">
-                        <option value="tls" selected>tls</option>
-                        <option value="none">none</option>
+                        <option value="none" selected>none</option>
+                        <option value="tls">tls</option>
                         <option value="xtls">xtls</option>
                     </select>
                 </div>
@@ -247,20 +224,17 @@ const HTML_CONTENT = `<!DOCTYPE html>
             
             <div class="form-group">
                 <label for="host">Host:</label>
-                <input type="text" id="host" value="" placeholder="domain-anda.com" required>
-                <p class="info-text">Host akan diisi otomatis dengan domain/subdomain halaman ini</p>
+                <input type="text" id="host" value="worker.my.id" required>
             </div>
             
             <div class="form-group">
                 <label for="path">Path:</label>
-                <input type="text" id="path" value="/" placeholder="/" required>
-                <p class="info-text">Path otomatis diisi dengan "/"</p>
+                <input type="text" id="path" value="/free/95.181.151.2:2096" required>
             </div>
             
             <div class="form-group">
-                <label for="remark">Remark/Nama Koneksi (opsional):</label>
-                <input type="text" id="remark" placeholder="Kosongkan untuk menggunakan nama domain">
-                <p class="info-text">Jika dikosongkan, akan menggunakan nama domain sebagai remark</p>
+                <label for="remark">Remark/Nama Koneksi:</label>
+                <input type="text" id="remark" value="nuxt.cloud hosting provider" required>
             </div>
             
             <button type="button" id="generateBtn">Buat Konfigurasi</button>
@@ -271,6 +245,10 @@ const HTML_CONTENT = `<!DOCTYPE html>
             <div id="configResult">Konfigurasi akan muncul di sini setelah Anda mengisi formulir dan mengeklik "Buat Konfigurasi".</div>
             <button type="button" id="copyBtn" class="copy-btn">Salin ke Clipboard</button>
         </div>
+        
+        <div class="example">
+            <strong>Contoh:</strong> vless://2bcfbfba-b446-4ad5-93ad-72af9e008f61@Quiz.vidio.com:80/?security=none&encryption=none&type=ws&host=worker.my.id&path=/free/95.181.151.2:2096#%F0%9F%87%A9%F0%9F%87%AA%20nuxt.cloud%20hosting%20provider
+        </div>
     </div>
     
     <footer>
@@ -278,20 +256,6 @@ const HTML_CONTENT = `<!DOCTYPE html>
     </footer>
 
     <script>
-        // Fungsi untuk mengisi otomatis berdasarkan halaman web
-        document.getElementById('autoFillBtn').addEventListener('click', function() {
-            const currentHost = window.location.hostname;
-            document.getElementById('host').value = currentHost;
-            document.getElementById('address').value = currentHost;
-            document.getElementById('path').value = "/";
-            
-            // Jika remark kosong, isi dengan nama domain
-            if (!document.getElementById('remark').value) {
-                document.getElementById('remark').value = currentHost;
-            }
-        });
-        
-        // Fungsi untuk menghasilkan konfigurasi
         document.getElementById('generateBtn').addEventListener('click', function() {
             // Ambil nilai dari form
             const uuid = document.getElementById('uuid').value;
@@ -302,12 +266,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
             const type = document.getElementById('type').value;
             const host = document.getElementById('host').value;
             const path = document.getElementById('path').value;
-            let remark = document.getElementById('remark').value;
-            
-            // Jika remark kosong, gunakan host
-            if (!remark) {
-                remark = host;
-            }
+            const remark = document.getElementById('remark').value;
             
             // Encode remark untuk URL
             const encodedRemark = encodeURIComponent(remark);
@@ -319,7 +278,6 @@ const HTML_CONTENT = `<!DOCTYPE html>
             document.getElementById('configResult').textContent = config;
         });
         
-        // Fungsi untuk menyalin ke clipboard
         document.getElementById('copyBtn').addEventListener('click', function() {
             const configText = document.getElementById('configResult').textContent;
             
@@ -335,49 +293,13 @@ const HTML_CONTENT = `<!DOCTYPE html>
                 }, 2000);
             }.bind(this));
         });
-        
-        // Isi otomatis saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('autoFillBtn').click();
-        });
     </script>
 </body>
 </html>`;
 
 export default {
   async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-    
-    // Jika path adalah /config, kita bisa menambahkan logika untuk menghasilkan config
-    if (url.pathname === '/config') {
-      const { searchParams } = url;
-      
-      // Ambil parameter dari URL
-      const uuid = searchParams.get('uuid') || '2bcfbfba-b446-4ad5-93ad-72af9e008f61';
-      const address = searchParams.get('address') || url.hostname;
-      const port = searchParams.get('port') || '443';
-      const security = searchParams.get('security') || 'tls';
-      const encryption = searchParams.get('encryption') || 'none';
-      const type = searchParams.get('type') || 'ws';
-      const host = searchParams.get('host') || url.hostname;
-      const path = searchParams.get('path') || '/';
-      let remark = searchParams.get('remark') || url.hostname;
-      
-      // Encode remark untuk URL
-      const encodedRemark = encodeURIComponent(remark);
-      
-      // Buat string konfigurasi
-      const config = `vless://${uuid}@${address}:${port}/?security=${security}&encryption=${encryption}&type=${type}&host=${host}&path=${path}#${encodedRemark}`;
-      
-      return new Response(config, {
-        headers: {
-          'Content-Type': 'text/plain; charset=utf-8',
-        },
-      });
-    }
-    
-    // Untuk semua request lainnya, tampilkan halaman HTML
-    return new Response(HTML_CONTENT, {
+    return new Response(htmlContent, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
       },
