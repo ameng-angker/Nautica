@@ -224,18 +224,18 @@ const htmlContent = `<!DOCTYPE html>
             </div>
             
             <div class="form-group">
-                <label for="host">Host:</label>
-                <input type="text" id="host" value="Isi Dengan Domain" required>
+                <label for="host"> Host/Domain:</label>
+                <input type="text" id="host" value="" required>
             </div>
             
             <div class="form-group">
                 <label for="path">Path:</label>
-                <input type="text" id="path" value="/Isi Proxy Anda" required>
+                <input type="text" id="path" value="/" required>
             </div>
             
             <div class="form-group">
                 <label for="remark">Remark/Nama Anda:</label>
-                <input type="text" id="remark" value="Isi Sesuai Nama Anda" required>
+                <input type="text" id="remark" value="" required>
             </div>
             
             <button type="button" id="generateBtn">Buat Konfigurasi</button>
@@ -249,6 +249,9 @@ const htmlContent = `<!DOCTYPE html>
         
         <div class="example">
             <strong>SRIPT BY GENDARXML
+            WhatsApp
+            083117530527
+            
         </div>
     </div>
     
